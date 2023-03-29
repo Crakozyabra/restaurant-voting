@@ -1,7 +1,7 @@
 package com.restaurant.voting.controller;
 
-import com.restaurant.voting.service.MenuService;
 import com.restaurant.voting.dto.menu.AdminMenuDto;
+import com.restaurant.voting.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,7 +28,7 @@ public class MenuController {
 
     @PostMapping
     public ResponseEntity<AdminMenuDto> create(@RequestBody AdminMenuDto adminMenuDto) {
-        Assert.isNull(adminMenuDto.getId(),"must be null");
+        Assert.isNull(adminMenuDto.getId(), "must be null");
         AdminMenuDto created = menuService.create(adminMenuDto);
         URI uriOfCreatedResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}").buildAndExpand(created.getId()).toUri();
@@ -47,7 +47,7 @@ public class MenuController {
 
     @PutMapping
     public AdminMenuDto update(@RequestBody AdminMenuDto adminMenuDto) {
-        Assert.notNull(adminMenuDto.getId(),"must not be null");
+        Assert.notNull(adminMenuDto.getId(), "must not be null");
         return menuService.update(adminMenuDto);
     }
 
