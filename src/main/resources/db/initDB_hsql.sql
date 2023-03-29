@@ -1,4 +1,6 @@
-DROP TABLE user_role IF EXISTS;
+-- TODO: make hsqldb init
+
+/*DROP TABLE user_role IF EXISTS;
 DROP TABLE menu_item IF EXISTS;
 DROP TABLE vote IF EXISTS;
 DROP TABLE users IF EXISTS;
@@ -44,7 +46,7 @@ CREATE TABLE vote
     voting_date   TIMESTAMP DEFAULT now() NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
-);
+);*/
 
 
 /*
