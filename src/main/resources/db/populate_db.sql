@@ -54,3 +54,26 @@ VALUES (1, 1, current_date, current_time),
        (4, 2, current_date, current_time),
        (5, 2, current_date, current_time);
 
+INSERT INTO supplier (name)
+VALUES ('Milks products'),
+       ('Milks products other supplier'),
+       ('Meats products'),
+       ('Meats products other supplier'),
+       ('Vegetables'),
+       ('Vegetables other supplier'),
+       ('Flour ideas'),
+       ('Flour ideas other supplier'),
+       ('Cutlery supplier'),
+       ('Other supplier'),
+       ('Fruits');
+
+INSERT INTO restaurant_supplier (restaurant_id, supplier_id)
+VALUES (1, 1),
+       (1, 2),
+       (1, 3),
+       (2, 2),
+       (2, 3),
+       (2, 4),
+       (3, 3),
+       (3, 4),
+       (3, 5);
