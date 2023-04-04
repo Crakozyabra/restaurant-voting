@@ -20,13 +20,13 @@ import java.util.Objects;
 @Transactional(readOnly = true)
 public class RestaurantService {
 
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
 
-    VoteRepository voteRepository;
+    private VoteRepository voteRepository;
 
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    MenuRepository menuRepository;
+    private MenuRepository menuRepository;
 
     @Autowired
     public RestaurantService(RestaurantRepository restaurantRepository, VoteRepository voteRepository,

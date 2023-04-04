@@ -26,7 +26,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -146,9 +145,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             request.setAttribute("javax.servlet.error.exception", ex, 0);
         }
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAcceptCharset(new ArrayList<>() {{
-            add(StandardCharsets.UTF_8);
-        }});
+        headers.setAcceptCharset(List.of(StandardCharsets.UTF_8));
         return new ResponseEntity(new Message(ex.getMessage()), headers, status);
     }
 

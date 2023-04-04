@@ -12,9 +12,4 @@ import lombok.Setter;
 public class Message {
 
     private String message;
-
-    @Override
-    public String toString() {
-        return "{\"message\": " + message + "}";
-    }
 }

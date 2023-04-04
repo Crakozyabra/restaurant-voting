@@ -17,11 +17,11 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class RestaurantWithVisibleMenuService {
 
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
 
-    VoteRepository voteRepository;
+    private VoteRepository voteRepository;
 
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public RestaurantWithVisibleMenuService(RestaurantRepository restaurantRepository, VoteRepository voteRepository, UserRepository userRepository) {

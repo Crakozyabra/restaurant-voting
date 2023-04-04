@@ -6,16 +6,13 @@ DROP TABLE IF EXISTS restaurant_supplier;
 DROP TABLE IF EXISTS restaurant;
 DROP TABLE IF EXISTS supplier;
 
-/*show timezone;*/
-SET TIME ZONE 'Europe/Moscow';
-
-
 CREATE TABLE users
 (
     id    SERIAL PRIMARY KEY,
     name  VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL
 );
+
 CREATE UNIQUE INDEX users_unique_email_idx
     ON users (email);
 
