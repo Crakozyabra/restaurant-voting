@@ -2,15 +2,15 @@ DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS vote;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS restaurant_supplier;
 DROP TABLE IF EXISTS restaurant;
-DROP TABLE IF EXISTS supplier;
 
 CREATE TABLE users
 (
-    id    SERIAL PRIMARY KEY,
-    name  VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL
+    id       SERIAL PRIMARY KEY,
+    name     VARCHAR(255) NOT NULL,
+    email    VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    enabled  BOOL         NOT NULL DEFAULT true
 );
 
 CREATE UNIQUE INDEX users_unique_email_idx
@@ -20,7 +20,7 @@ CREATE TABLE role
 (
     user_id INTEGER      NOT NULL,
     role    VARCHAR(255) NOT NULL,
-    CONSTRAINT user_roles_idx UNIQUE (user_id, role),
+    CONSTRAINT user_roles_constraint UNIQUE (user_id, role),
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
@@ -33,11 +33,11 @@ CREATE TABLE restaurant
 
 CREATE TABLE menu
 (
-    id             SERIAL PRIMARY KEY,
-    restaurant_id  INTEGER          NOT NULL,
-    menu_item_name VARCHAR(255)     NOT NULL,
-    price          DOUBLE PRECISION NOT NULL,
-    is_visible     BOOLEAN          NOT NULL,
+    id            SERIAL PRIMARY KEY,
+    restaurant_id INTEGER          NOT NULL,
+    name          VARCHAR(255)     NOT NULL,
+    price         DOUBLE PRECISION NOT NULL,
+    enabled       BOOL             NOT NULL DEFAULT true,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
 
@@ -52,18 +52,3 @@ CREATE TABLE vote
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE,
     CONSTRAINT user_date_unique_constraint UNIQUE (user_id, voting_date)
 );
-
-CREATE TABLE supplier
-(
-    id   SERIAL PRIMARY KEY,
-    name VARCHAR(255),
-    CONSTRAINT unique_name UNIQUE (name)
-);
-
-CREATE TABLE restaurant_supplier
-(
-    restaurant_id INTEGER NOT NULL,
-    supplier_id   INTEGER NOT NULL,
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE,
-    FOREIGN KEY (supplier_id) REFERENCES supplier (id) ON DELETE CASCADE
-)

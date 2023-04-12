@@ -1,18 +1,22 @@
-package com.restaurant.voting.controller;
+package com.restaurant.voting.web;
 
-import com.restaurant.voting.dto.vote.VotesDto;
+import com.restaurant.voting.to.vote.VotesDto;
 import com.restaurant.voting.service.VoteService;
-import com.restaurant.voting.dto.vote.VoteDto;
+import com.restaurant.voting.to.vote.VoteDto;
+import com.restaurant.voting.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -28,12 +32,16 @@ public class VoteController {
     }
 
     @PostMapping
-    public ResponseEntity<VoteDto> create(@RequestBody VoteDto voteDto) {
-        Assert.isNull(voteDto.getId(),"must be null");
+    public ResponseEntity<String> create(@Valid @RequestBody VoteDto voteDto, BindingResult bindingResult) {
+        ValidationUtil.checkNew(voteDto);
+        ResponseEntity<String> response = ValidationUtil.bindError(bindingResult);
+        if (Objects.nonNull(response)) {
+            return response;
+        }
         VoteDto created = voteService.create(voteDto);
         URI uriOfCreatedResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}").buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfCreatedResource).body(created);
+        return ResponseEntity.created(uriOfCreatedResource).build();
     }
 
     @GetMapping
@@ -44,8 +52,13 @@ public class VoteController {
     }
 
     @PutMapping
-    public VoteDto update(@RequestBody VoteDto voteDto) {
-        Assert.notNull(voteDto.getId(),"must be null");
-        return voteService.update(voteDto);
+    public ResponseEntity<String> update(@Valid @RequestBody VoteDto voteDto, BindingResult bindingResult) {
+        Assert.isTrue(!voteDto.isNew(), "id must be not null");
+        ResponseEntity<String> response = ValidationUtil.bindError(bindingResult);
+        if (Objects.nonNull(response)) {
+            return response;
+        }
+        voteService.update(voteDto);
+        return ResponseEntity.ok().build();
     }
 }

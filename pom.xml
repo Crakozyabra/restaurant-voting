@@ -2,20 +2,20 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.example</groupId>
-  <artifactId>internshipGraduation</artifactId>
+  <artifactId>restaurantVoting</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>internshipGraduation Maven Webapp</name>
+  <name>Restaurant Voting Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
   <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
     <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <spring.version>5.3.25</spring.version>
+    <spring.security.version>5.8.2</spring.security.version>
     <spring-data-jpa.version>2.7.8</spring-data-jpa.version>
+    <jackson.version>2.14.2</jackson.version>
     <tomcat.version>9.0.72</tomcat.version>
 
     <!-- Hibernate -->
@@ -26,6 +26,13 @@
     <!--Cache-->
     <ehcache.version>3.10.8</ehcache.version>
 
+    <!--webjars-->
+    <webjars-bootstrap.version>4.6.2</webjars-bootstrap.version>
+    <webjars-jquery.version>3.6.4</webjars-jquery.version>
+    <webjars-datetimepicker.version>2.5.20-1</webjars-datetimepicker.version>
+    <webjars-noty.version>3.1.4</webjars-noty.version>
+    <webjars-datatables.version>1.13.2</webjars-datatables.version>
+
     <!-- Logging -->
     <logback.version>1.2.11</logback.version>
     <slf4j.version>1.7.36</slf4j.version>
@@ -33,8 +40,9 @@
     <!--DB-->
     <postgresql.version>42.5.3</postgresql.version>
     <!--    Tests  -->
-    <junit.version>4.13.2</junit.version>
+    <junit.jupiter.version>5.9.2</junit.jupiter.version>
     <assertj.version>3.24.2</assertj.version>
+    <hamcrest.version>2.2</hamcrest.version>
   </properties>
 
 
@@ -44,6 +52,26 @@
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
+    </dependency>
+
+    <!-- Logging with SLF4J & LogBack -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version>
     </dependency>
 
     <dependency>
@@ -56,6 +84,19 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
       <version>${hibernate.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.el</artifactId>
+      <version>${javax-el.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
@@ -96,19 +137,37 @@
       <version>${spring-data-jpa.version}</version>
     </dependency>
 
+
+    <!--JSON-->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-hibernate5</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
-    <finalName>internshipGraduation</finalName>
+    <finalName>restaurantVoting</finalName>
 
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.8.1</version>
         <configuration>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
         </configuration>
       </plugin>
 

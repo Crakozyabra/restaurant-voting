@@ -1,9 +1,10 @@
 package com.restaurant.voting.service;
 
-import com.restaurant.voting.dto.user.UserDto;
+import com.restaurant.voting.to.user.UserDto;
 import com.restaurant.voting.repository.UserRepository;
-import com.restaurant.voting.util.DtoUtil;
+import com.restaurant.voting.util.ToUtil;
 import com.restaurant.voting.model.User;
+import com.restaurant.voting.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,31 +25,29 @@ public class UserService {
 
     @Transactional
     public UserDto create(UserDto userDto) {
-        User user = DtoUtil.userDtoToUser(userDto);
+        User user = ToUtil.userDtoToUser(userDto);
         User saved = userRepository.save(user);
-        return DtoUtil.userToUserDto(saved);
+        return ToUtil.userToUserDto(saved);
     }
 
     public UserDto get(int id) {
-        return userRepository.findById(id).map(DtoUtil::userToUserDto).orElse(new UserDto());
-    }
-
-    public UserDto getUserByEmail(String email) {
-        return DtoUtil.userToUserDto(userRepository.findUserByEmail(email));
+        return ValidationUtil.checkNotFoundWithId(
+                userRepository.findById(id).map(ToUtil::userToUserDto).orElse(null), id
+        );
     }
 
     public List<UserDto> getAll() {
         List<User> users = userRepository.getAll();
         List<UserDto> userDtos = new ArrayList<>();
-        users.forEach(user -> userDtos.add(DtoUtil.userToUserDto(user)));
+        users.forEach(user -> userDtos.add(ToUtil.userToUserDto(user)));
         return userDtos;
     }
 
     @Transactional
     public UserDto update(UserDto userDto) {
-        User user = DtoUtil.userDtoToUser(userDto);
+        User user = ToUtil.userDtoToUser(userDto);
         User saved = userRepository.save(user);
-        return DtoUtil.userToUserDto(saved);
+        return ToUtil.userToUserDto(saved);
     }
 
     @Transactional

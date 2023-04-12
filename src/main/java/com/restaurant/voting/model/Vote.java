@@ -17,7 +17,6 @@ import java.time.LocalTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"user"})
 @NamedEntityGraph(name = "voteWithJoinFetchRestaurant", attributeNodes = {
         @NamedAttributeNode("restaurant")
 })

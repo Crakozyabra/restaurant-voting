@@ -30,7 +30,6 @@ public class HibernateSessionFactory {
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Vote.class)
                 .addAnnotatedClass(Menu.class)
-                .addAnnotatedClass(ProductSupplier.class)
                 .buildSessionFactory();
     }
 

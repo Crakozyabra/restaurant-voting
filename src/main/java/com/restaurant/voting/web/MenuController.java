@@ -1,17 +1,20 @@
-package com.restaurant.voting.controller;
+package com.restaurant.voting.web;
 
-import com.restaurant.voting.dto.menu.AdminMenuDto;
 import com.restaurant.voting.service.MenuService;
+import com.restaurant.voting.to.menu.AdminMenuDto;
+import com.restaurant.voting.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = MenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,28 +30,32 @@ public class MenuController {
     }
 
     @PostMapping
-    public ResponseEntity<AdminMenuDto> create(@RequestBody AdminMenuDto adminMenuDto) {
-        Assert.isNull(adminMenuDto.getId(), "must be null");
+    public ResponseEntity<String> create(@Valid @RequestBody AdminMenuDto adminMenuDto, BindingResult bindingResult) {
+        ValidationUtil.checkNew(adminMenuDto);
+        ResponseEntity<String> response = ValidationUtil.bindError(bindingResult);
+        if (Objects.nonNull(response)) {
+            return response;
+        }
         AdminMenuDto created = menuService.create(adminMenuDto);
         URI uriOfCreatedResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}").buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfCreatedResource).body(created);
+        return ResponseEntity.created(uriOfCreatedResource).build();
     }
 
-    @GetMapping("/by-price")
-    List<AdminMenuDto> getAllByPriceBetween(@RequestParam Double startPrice, @RequestParam Double endPrice) {
-        return menuService.getAllByPriceBetween(startPrice, endPrice);
-    }
-
-    @GetMapping("/page")
-    List<AdminMenuDto> getAllPaged(@RequestParam Integer start, @RequestParam Integer limit) {
-        return menuService.getAllPaged(start, limit);
+    @GetMapping("/{id}")
+    public AdminMenuDto get(@PathVariable Integer id) {
+        return menuService.get(id);
     }
 
     @PutMapping
-    public AdminMenuDto update(@RequestBody AdminMenuDto adminMenuDto) {
-        Assert.notNull(adminMenuDto.getId(), "must not be null");
-        return menuService.update(adminMenuDto);
+    public ResponseEntity<String> update(@Valid @RequestBody AdminMenuDto adminMenuDto, BindingResult bindingResult) {
+        Assert.isTrue(!adminMenuDto.isNew(), "id must be not null");
+        ResponseEntity<String> response = ValidationUtil.bindError(bindingResult);
+        if (Objects.nonNull(response)) {
+            return response;
+        }
+        menuService.update(adminMenuDto);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

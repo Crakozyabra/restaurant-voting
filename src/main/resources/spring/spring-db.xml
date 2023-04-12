@@ -30,9 +30,10 @@
           p:url="jdbc:hsqldb:mem:dbstorage"
           p:username="sa"
           p:password=""/>-->
-    <!--class="org.springframework.jdbc.datasource.DriverManagerDataSource"-->
 
-    <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+    <!---->
+    <!--class="org.apache.tomcat.jdbc.pool.DataSource"-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="org.postgresql.Driver"
           p:url="jdbc:postgresql://localhost:5432/postgres"
           p:username="user"
@@ -48,7 +49,7 @@
                     <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="$true"/>
                     <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}" value="true"/>
                     <entry key="#{T(org.hibernate.cfg.AvailableSettings).JPA_PROXY_COMPLIANCE}" value="false"/>
-                    <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_AUTO}" value="validate"/>
+                    <!--<entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_AUTO}" value="validate"/>-->
                     <entry key="#{T(org.hibernate.cfg.AvailableSettings).STATEMENT_BATCH_SIZE}" value="5"/>
                     <entry key="#{T(org.hibernate.cfg.AvailableSettings).JPA_PROXY_COMPLIANCE}" value="false"/>
                 </map>

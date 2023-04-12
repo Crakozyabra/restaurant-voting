@@ -1,4 +1,4 @@
-package com.restaurant.voting.controller.controllerexceptionhandling;
+package com.restaurant.voting.web.controllerexceptionhandling;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,8 +1,12 @@
 package com.restaurant.voting.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 import java.util.Set;
 
@@ -10,30 +14,18 @@ import java.util.Set;
 @Table(name = "restaurant")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@ToString(exclude = {"votes", "menus"})
-public class Restaurant {
+public class Restaurant extends AbstractNamedEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @OrderBy("name")
     @OneToMany(mappedBy = "restaurant")
     private List<Menu> menus;
 
     @OneToMany(mappedBy = "restaurant")
     private Set<Vote> votes;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "restaurant_supplier",
-            joinColumns = @JoinColumn(name = "restaurant_id"),
-            inverseJoinColumns = @JoinColumn(name = "supplier_id"))
-    private Set<ProductSupplier> suppliers;
+    public Restaurant(Integer id, String name, List<Menu> menus, Set<Vote> votes) {
+        super(id, name);
+        this.menus = menus;
+        this.votes = votes;
+    }
 }

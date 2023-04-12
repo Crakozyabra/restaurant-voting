@@ -1,6 +1,6 @@
-package com.restaurant.voting.controller;
+package com.restaurant.voting.web;
 
-import com.restaurant.voting.dto.restaurant.UserRestaurantDto;
+import com.restaurant.voting.to.restaurant.UserRestaurantDto;
 import com.restaurant.voting.service.RestaurantWithVisibleMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

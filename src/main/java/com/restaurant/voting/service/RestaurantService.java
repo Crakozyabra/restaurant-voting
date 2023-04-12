@@ -1,13 +1,14 @@
 package com.restaurant.voting.service;
 
-import com.restaurant.voting.dto.restaurant.RestaurantWithoutMenuDto;
-import com.restaurant.voting.util.DtoUtil;
-import com.restaurant.voting.dto.restaurant.AdminRestaurantDto;
+import com.restaurant.voting.to.restaurant.RestaurantWithoutMenuDto;
+import com.restaurant.voting.util.ToUtil;
+import com.restaurant.voting.to.restaurant.AdminRestaurantDto;
 import com.restaurant.voting.model.Restaurant;
 import com.restaurant.voting.repository.MenuRepository;
 import com.restaurant.voting.repository.RestaurantRepository;
 import com.restaurant.voting.repository.UserRepository;
 import com.restaurant.voting.repository.VoteRepository;
+import com.restaurant.voting.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,19 +44,20 @@ public class RestaurantService {
     }
 
     public AdminRestaurantDto get(int id) {
-        Restaurant restaurant = restaurantRepository.get(id);
-        return Objects.nonNull(restaurant) ? DtoUtil.restaurantToAdminRestaurantDto(restaurant) : null;
+        Restaurant restaurant = ValidationUtil.checkNotFoundWithId(restaurantRepository.get(id), id);
+        return ToUtil.restaurantToAdminRestaurantDto(restaurant);
     }
 
     public List<AdminRestaurantDto> getAllWithMenu() {
         List<Restaurant> restaurants = restaurantRepository.getAllWithMenu();
         List<AdminRestaurantDto> adminRestaurantsDto = new ArrayList<>();
-        restaurants.forEach(restaurant -> adminRestaurantsDto.add(DtoUtil.restaurantToAdminRestaurantDto(restaurant)));
+        restaurants.forEach(restaurant -> adminRestaurantsDto.add(ToUtil.restaurantToAdminRestaurantDto(restaurant)));
         return adminRestaurantsDto;
     }
 
     @Transactional
     public RestaurantWithoutMenuDto update(RestaurantWithoutMenuDto restaurantWithoutMenuDto) {
+
         return save(restaurantWithoutMenuDto);
     }
 
@@ -65,7 +67,7 @@ public class RestaurantService {
 
     private RestaurantWithoutMenuDto save(RestaurantWithoutMenuDto restaurantWithoutMenuDto) {
         Restaurant restaurant = restaurantRepository.save(
-                DtoUtil.restaurantWithoutMenuDtoToRestaurant(restaurantWithoutMenuDto));
-        return DtoUtil.restaurantToRestaurantWithoutMenuDto(restaurant);
+                ToUtil.restaurantWithoutMenuDtoToRestaurant(restaurantWithoutMenuDto));
+        return ToUtil.restaurantToRestaurantWithoutMenuDto(restaurant);
     }
 }

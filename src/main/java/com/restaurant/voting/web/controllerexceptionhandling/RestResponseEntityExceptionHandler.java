@@ -1,4 +1,4 @@
-package com.restaurant.voting.controller.controllerexceptionhandling;
+package com.restaurant.voting.web.controllerexceptionhandling;
 
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;

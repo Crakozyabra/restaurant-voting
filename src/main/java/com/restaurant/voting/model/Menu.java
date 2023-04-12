@@ -1,33 +1,37 @@
 package com.restaurant.voting.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "menu")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@ToString(exclude = {"restaurant"})
-public class Menu {
+public class Menu extends AbstractNamedEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(name = "menu_item_name", nullable = false)
-    private String name;
-
-    @Column(name = "price", nullable = false)
+    @Column(nullable = false)
+    @Min(0)
+    @NotNull
     private Double price;
 
-    @Column(name = "is_visible", nullable = false)
-    private Boolean isVisible;
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    @NotNull
+    private Boolean enabled = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+
+    public Menu(Integer id, String name, Double price, Boolean enabled, Restaurant restaurant) {
+        super(id, name);
+        this.price = price;
+        this.enabled = enabled;
+        this.restaurant = restaurant;
+    }
 }

@@ -1,9 +1,15 @@
 package com.restaurant.voting.model;
 
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 
@@ -11,21 +17,26 @@ import java.util.Set;
 @Table(name = "users")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @NamedEntityGraph(name = "userWithJoinFetchRoles", attributeNodes = {
         @NamedAttributeNode("roles")
 })
-public class User {
+public class User extends AbstractNamedEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private String name;
-
+    @Column(name = "email", nullable = false, unique = true)
+    @Email
+    @NotBlank
+    @Size(max = 128)
     private String email;
+
+    @NotNull
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private Boolean enabled = true;
+
+    @Column(name = "password", nullable = false)
+    @NotBlank
+    @Size(min = 5, max = 128)
+    private String password;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -35,4 +46,13 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Vote> votes;
+
+    public User(Integer id, String name, String email, Boolean enabled, String password, Set<Role> roles, List<Vote> votes) {
+        super(id, name);
+        this.email = email;
+        this.enabled = enabled;
+        this.password = password;
+        this.roles = roles;
+        this.votes = votes;
+    }
 }

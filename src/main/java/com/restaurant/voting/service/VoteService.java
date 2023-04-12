@@ -1,9 +1,9 @@
 package com.restaurant.voting.service;
 
 import com.restaurant.voting.model.Vote;
-import com.restaurant.voting.util.DtoUtil;
-import com.restaurant.voting.dto.vote.VoteDto;
-import com.restaurant.voting.dto.vote.VotesDto;
+import com.restaurant.voting.util.ToUtil;
+import com.restaurant.voting.to.vote.VoteDto;
+import com.restaurant.voting.to.vote.VotesDto;
 import com.restaurant.voting.model.Restaurant;
 import com.restaurant.voting.model.User;
 import com.restaurant.voting.repository.RestaurantRepository;
@@ -47,7 +47,7 @@ public class VoteService {
 
     public List<VotesDto> getAllResultsToday(LocalDate votingDay) {
         List<Vote> votes = voteRepository.findVoteByVotingDateIs(votingDay);
-        return DtoUtil.votesToVotesDto(votes);
+        return ToUtil.votesToVotesDto(votes);
     }
 
     @Transactional
