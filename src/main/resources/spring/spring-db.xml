@@ -13,9 +13,9 @@
        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-
+    <!--<jdbc:script location="classpath:db/init_db_postgres.sql"/>-->
     <jdbc:initialize-database data-source="dataSource" enabled="true">
-        <jdbc:script location="classpath:db/init_db_postgres.sql"/>
+        <jdbc:script location="classpath:db/init_db_hsqldb.sql"/>
         <jdbc:script encoding="utf-8" location="classpath:db/populate_db.sql"/>
     </jdbc:initialize-database>
 
@@ -24,21 +24,21 @@
 
 
 
-    <!--<bean id="dataSource"
+    <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="org.hsqldb.jdbcDriver"
           p:url="jdbc:hsqldb:mem:dbstorage"
           p:username="sa"
-          p:password=""/>-->
+          p:password=""/>
 
     <!---->
     <!--class="org.apache.tomcat.jdbc.pool.DataSource"-->
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="org.postgresql.Driver"
           p:url="jdbc:postgresql://localhost:5432/postgres"
           p:username="user"
           p:password="password"
-    />
+    />-->
 
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"

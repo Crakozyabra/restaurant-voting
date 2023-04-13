@@ -7,7 +7,7 @@ FROM role;
 DELETE
 FROM menu;
 
-SET TIME ZONE 'Europe/Moscow';
+-- SET TIME ZONE 'Europe/Moscow';
 
 INSERT INTO restaurant (name)
 VALUES ('Italian restaurant'),
